@@ -8,7 +8,7 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/larkox/mattermost-utils-flow/common"
+	"github.com/larkox/mattermost-plugin-utils/common"
 	"github.com/mattermost/mattermost-server/v5/model"
 )
 

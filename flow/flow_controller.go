@@ -1,8 +1,8 @@
 package flow
 
 import (
-	"github.com/larkox/mattermost-utils-flow/common"
-	"github.com/larkox/mattermost-utils-flow/flow/steps"
+	"github.com/larkox/mattermost-plugin-utils/common"
+	"github.com/larkox/mattermost-plugin-utils/flow/steps"
 )
 
 type FlowController interface {

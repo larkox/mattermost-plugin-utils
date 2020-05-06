@@ -3,7 +3,7 @@ package flow
 import (
 	"strconv"
 
-	"github.com/larkox/mattermost-utils-flow/flow/steps"
+	"github.com/larkox/mattermost-plugin-utils/flow/steps"
 	"github.com/mattermost/mattermost-server/v5/model"
 )
 

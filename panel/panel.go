@@ -3,8 +3,8 @@ package panel
 import (
 	"errors"
 
-	"github.com/larkox/mattermost-utils-flow/common"
-	"github.com/larkox/mattermost-utils-flow/panel/settings"
+	"github.com/larkox/mattermost-plugin-utils/common"
+	"github.com/larkox/mattermost-plugin-utils/panel/settings"
 	"github.com/mattermost/mattermost-server/v5/model"
 )
 
