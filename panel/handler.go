@@ -13,7 +13,7 @@ type handler struct {
 	panel Panel
 }
 
-func Init(r mux.Router, panel Panel) {
+func Init(r *mux.Router, panel Panel) {
 	sh := &handler{
 		panel: panel,
 	}

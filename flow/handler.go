@@ -18,7 +18,7 @@ type fh struct {
 	store FlowStore
 }
 
-func Init(r mux.Router, flow Flow, store FlowStore) {
+func Init(r *mux.Router, flow Flow, store FlowStore) {
 	fh := &fh{
 		flow:  flow,
 		store: store,

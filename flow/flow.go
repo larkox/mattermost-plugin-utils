@@ -12,12 +12,46 @@ type Flow interface {
 	FlowDone(userID string)
 }
 
-type FlowStore interface {
-	SetProperty(userID, propertyName string, value bool) error
-	SetPostID(userID, propertyName, postID string) error
-	GetPostID(userID, propertyName string) (string, error)
-	RemovePostID(userID, propertyName string) error
-	GetCurrentStep(userID string) (int, error)
-	SetCurrentStep(userID string, step int) error
-	DeleteCurrentStep(userID string) error
+type flow struct {
+	steps      []steps.Step
+	url        string
+	controller FlowController
+	onFlowDone func(userID string)
+}
+
+func NewFlow(stepList []steps.Step, url string, fc FlowController, onFlowDone func(userID string)) Flow {
+	f := &flow{
+		url:        "/welcome",
+		controller: fc,
+		onFlowDone: onFlowDone,
+	}
+	return f
+}
+
+func (f *flow) Step(i int) steps.Step {
+	if i < 0 {
+		return nil
+	}
+	if i >= len(f.steps) {
+		return nil
+	}
+	return f.steps[i]
+}
+
+func (f *flow) URL() string {
+	return f.url
+}
+
+func (f *flow) Length() int {
+	return len(f.steps)
+}
+
+func (f *flow) StepDone(userID string, step int, value bool) {
+	f.controller.NextStep(userID, step, value)
+}
+
+func (f *flow) FlowDone(userID string) {
+	if f.onFlowDone != nil {
+		f.onFlowDone(userID)
+	}
 }
