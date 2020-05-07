@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"strconv"
 
+	"github.com/gorilla/mux"
 	"github.com/larkox/mattermost-plugin-utils/common"
 	"github.com/mattermost/mattermost-server/v5/model"
 )
@@ -17,7 +18,7 @@ type fh struct {
 	store FlowStore
 }
 
-func Init(r common.Router, flow Flow, store FlowStore) {
+func Init(r mux.Router, flow Flow, store FlowStore) {
 	fh := &fh{
 		flow:  flow,
 		store: store,

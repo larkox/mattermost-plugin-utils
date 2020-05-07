@@ -1,6 +1,11 @@
-package common
+// Copyright (c) 2019-present Mattermost, Inc. All Rights Reserved.
+// See License for license information.
 
-import "github.com/mattermost/mattermost-server/v5/model"
+package poster
+
+import (
+	"github.com/mattermost/mattermost-server/v5/model"
+)
 
 type Poster interface {
 	// DM posts a simple Direct Message to the specified user

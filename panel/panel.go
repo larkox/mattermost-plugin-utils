@@ -3,6 +3,8 @@ package panel
 import (
 	"errors"
 
+	"github.com/larkox/mattermost-plugin-utils/bot/logger"
+	"github.com/larkox/mattermost-plugin-utils/bot/poster"
 	"github.com/larkox/mattermost-plugin-utils/common"
 	"github.com/larkox/mattermost-plugin-utils/panel/settings"
 	"github.com/mattermost/mattermost-server/v5/model"
@@ -20,14 +22,14 @@ type Panel interface {
 type panel struct {
 	settings       map[string]settings.Setting
 	settingKeys    []string
-	poster         common.Poster
-	logger         common.Logger
+	poster         poster.Poster
+	logger         logger.Logger
 	store          PanelStore
 	settingHandler string
 	pluginURL      string
 }
 
-func NewSettingsPanel(settingList []settings.Setting, poster common.Poster, logger common.Logger, store PanelStore, settingHandler, pluginURL string) Panel {
+func NewSettingsPanel(settingList []settings.Setting, poster poster.Poster, logger logger.Logger, store PanelStore, settingHandler, pluginURL string) Panel {
 	settingsMap := make(map[string]settings.Setting)
 	settingKeys := []string{}
 	for _, s := range settingList {

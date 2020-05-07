@@ -3,6 +3,7 @@ package panel
 import (
 	"net/http"
 
+	"github.com/gorilla/mux"
 	"github.com/larkox/mattermost-plugin-utils/common"
 	"github.com/larkox/mattermost-plugin-utils/panel/settings"
 	"github.com/mattermost/mattermost-server/v5/model"
@@ -12,7 +13,7 @@ type handler struct {
 	panel Panel
 }
 
-func Init(r common.Router, panel Panel) {
+func Init(r mux.Router, panel Panel) {
 	sh := &handler{
 		panel: panel,
 	}

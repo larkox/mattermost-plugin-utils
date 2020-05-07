@@ -1,32 +1,37 @@
 package flow
 
 import (
-	"github.com/larkox/mattermost-plugin-utils/common"
+	"github.com/larkox/mattermost-plugin-utils/bot/logger"
+	"github.com/larkox/mattermost-plugin-utils/bot/poster"
 	"github.com/larkox/mattermost-plugin-utils/flow/steps"
 )
 
 type FlowController interface {
+	RegisterFlow(Flow, FlowStore)
 	Start(userID string) error
 	NextStep(userID string, from int, value bool) error
 	Cancel(userID string) error
 }
 
 type flowController struct {
-	common.Poster
-	common.Logger
+	poster.Poster
+	logger.Logger
 	flow      Flow
 	store     FlowStore
 	pluginURL string
 }
 
-func NewFlowController(p common.Poster, l common.Logger, flow Flow, store FlowStore, pluginURL string) FlowController {
+func NewFlowController(p poster.Poster, l logger.Logger, pluginURL string) FlowController {
 	return &flowController{
 		Poster:    p,
 		Logger:    l,
-		flow:      flow,
-		store:     store,
 		pluginURL: pluginURL,
 	}
+}
+
+func (fc *flowController) RegisterFlow(flow Flow, store FlowStore) {
+	fc.flow = flow
+	fc.store = store
 }
 
 func (fc *flowController) Start(userID string) error {
