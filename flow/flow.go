@@ -21,7 +21,7 @@ type flow struct {
 
 func NewFlow(stepList []steps.Step, url string, fc FlowController, onFlowDone func(userID string)) Flow {
 	f := &flow{
-		steps:      steps,
+		steps:      stepList,
 		url:        "/welcome",
 		controller: fc,
 		onFlowDone: onFlowDone,
