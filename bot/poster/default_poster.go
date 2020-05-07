@@ -93,3 +93,7 @@ func (p *defaultPoster) UpdatePost(post *model.Post) error {
 	}
 	return nil
 }
+
+func (p *defaultPoster) UpdatePosterID(id string) {
+	p.id = id
+}
