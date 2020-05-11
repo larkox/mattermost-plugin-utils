@@ -13,7 +13,7 @@ type FlowController interface {
 	Start(userID string) error
 	NextStep(userID string, from int, value interface{}) error
 	GetCurrentStep(userID string) (steps.Step, int, error)
-	GetFlowURL() string
+	GetHandlerURL() string
 	Cancel(userID string) error
 }
 
@@ -39,11 +39,11 @@ func (fc *flowController) RegisterFlow(flow Flow, store FlowStore) {
 }
 
 func (fc *flowController) Start(userID string) error {
-	err := fc.setFlowStep(userID, 0)
+	err := fc.setFlowStep(userID, 1)
 	if err != nil {
 		return err
 	}
-	return fc.processStep(userID, fc.flow.Step(0), 0)
+	return fc.processStep(userID, fc.flow.Step(1), 1)
 }
 
 func (fc *flowController) NextStep(userID string, from int, value interface{}) error {
@@ -58,7 +58,7 @@ func (fc *flowController) NextStep(userID string, from int, value interface{}) e
 
 	skip := fc.flow.Step(step).ShouldSkip(value)
 	step += 1 + skip
-	if step >= fc.flow.Length() {
+	if step > fc.flow.Length() {
 		fc.removeFlowStep(userID)
 		fc.flow.FlowDone(userID)
 		return nil
@@ -78,6 +78,10 @@ func (fc *flowController) GetCurrentStep(userID string) (steps.Step, int, error)
 		return nil, 0, err
 	}
 
+	if index == 0 {
+		return nil, 0, nil
+	}
+
 	step := fc.flow.Step(index)
 	if step == nil {
 		return nil, 0, fmt.Errorf("step %d not found", index)
@@ -86,8 +90,8 @@ func (fc *flowController) GetCurrentStep(userID string) (steps.Step, int, error)
 	return step, index, nil
 }
 
-func (fc *flowController) GetFlowURL() string {
-	return fc.flow.URL()
+func (fc *flowController) GetHandlerURL() string {
+	return fc.pluginURL + fc.flow.URL()
 }
 
 func (fc *flowController) Cancel(userID string) error {
@@ -138,7 +142,7 @@ func (fc *flowController) processStep(userID string, step steps.Step, i int) err
 	if fc.store == nil {
 		fc.Errorf("Store nil")
 	}
-	postID, err := fc.DMWithAttachments(userID, step.PostSlackAttachment(fc.pluginURL+fc.flow.URL(), i))
+	postID, err := fc.DMWithAttachments(userID, step.PostSlackAttachment(fc.GetHandlerURL(), i))
 	if err != nil {
 		return err
 	}

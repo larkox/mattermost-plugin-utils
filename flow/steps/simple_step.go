@@ -71,9 +71,10 @@ func (s *simpleStep) PostSlackAttachment(flowHandler string, i int) *model.Slack
 }
 
 func (s *simpleStep) ResponseSlackAttachment(rawValue interface{}) *model.SlackAttachment {
-	value, ok := rawValue.(bool)
+	value := s.parseValue(rawValue)
+
 	message := s.FalseResponseMessage
-	if ok && value {
+	if value {
 		message = s.TrueResponseMessage
 	}
 
@@ -91,9 +92,9 @@ func (s *simpleStep) GetPropertyName() string {
 }
 
 func (s *simpleStep) ShouldSkip(rawValue interface{}) int {
-	value, ok := rawValue.(bool)
+	value := s.parseValue(rawValue)
 
-	if ok && value {
+	if value {
 		return s.TrueSkip
 	}
 
@@ -106,4 +107,13 @@ func (s *simpleStep) IsEmpty() bool {
 
 func (s *simpleStep) WaitForUserInput() bool {
 	return false
+}
+
+func (_ *simpleStep) parseValue(rawValue interface{}) (value bool) {
+	err := json.Unmarshal([]byte(rawValue.(string)), &value)
+	if err != nil {
+		return false
+	}
+
+	return value
 }

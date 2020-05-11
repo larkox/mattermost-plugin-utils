@@ -32,11 +32,15 @@ func FreeTextMessageHandler(c *plugin.Context, post *model.Post, api plugin.API,
 		return
 	}
 
+	if stepIndex == 0 {
+		return
+	}
+
 	if !step.WaitForUserInput() {
 		return
 	}
 
-	posterBot.DMWithAttachments(post.UserId, freeTextSlackAttachment(controller.GetFlowURL(), post.Message, step, stepIndex))
+	posterBot.DMWithAttachments(post.UserId, freeTextSlackAttachment(controller.GetHandlerURL(), post.Message, step, stepIndex))
 }
 
 func freeTextSlackAttachment(flowHandler string, value string, step steps.Step, i int) *model.SlackAttachment {

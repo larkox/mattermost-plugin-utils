@@ -33,6 +33,9 @@ func (s *freetextStep) PostSlackAttachment(flowHandler string, i int) *model.Sla
 
 func (s *freetextStep) ResponseSlackAttachment(value interface{}) *model.SlackAttachment {
 	message := fmt.Sprintf(s.ResponseFormat, value)
+	if value.(string) == "" {
+		message = "Text input cancelled."
+	}
 
 	sa := model.SlackAttachment{
 		Title:   s.Title,
@@ -60,5 +63,5 @@ func (s *freetextStep) IsEmpty() bool {
 }
 
 func (s *freetextStep) WaitForUserInput() bool {
-	return false
+	return true
 }

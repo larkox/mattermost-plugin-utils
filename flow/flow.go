@@ -30,13 +30,13 @@ func NewFlow(stepList []steps.Step, url string, fc FlowController, onFlowDone fu
 }
 
 func (f *flow) Step(i int) steps.Step {
-	if i < 0 {
+	if i < 1 {
 		return nil
 	}
-	if i >= len(f.steps) {
+	if i > len(f.steps) {
 		return nil
 	}
-	return f.steps[i]
+	return f.steps[i-1]
 }
 
 func (f *flow) URL() string {
