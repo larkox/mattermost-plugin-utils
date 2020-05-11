@@ -1,6 +1,8 @@
 package steps
 
 import (
+	"encoding/json"
+
 	"github.com/mattermost/mattermost-server/v5/model"
 )
 
@@ -31,14 +33,18 @@ func NewSimpleStep(title, message, propertyName, trueButtonMessage, falseButtonM
 }
 
 func (s *simpleStep) PostSlackAttachment(flowHandler string, i int) *model.SlackAttachment {
+	trueValue, _ := json.Marshal(true)
+	falseValue, _ := json.Marshal(false)
+	stepValue, _ := json.Marshal(i)
+
 	actionTrue := model.PostAction{
 		Name: s.TrueButtonMessage,
 		Integration: &model.PostActionIntegration{
 			URL: flowHandler,
 			Context: map[string]interface{}{
 				ContextPropertyKey:    s.PropertyName,
-				ContextButtonValueKey: "true",
-				ContextStepKey:        i,
+				ContextButtonValueKey: trueValue,
+				ContextStepKey:        stepValue,
 			},
 		},
 	}
@@ -49,8 +55,8 @@ func (s *simpleStep) PostSlackAttachment(flowHandler string, i int) *model.Slack
 			URL: flowHandler,
 			Context: map[string]interface{}{
 				ContextPropertyKey:    s.PropertyName,
-				ContextButtonValueKey: "false",
-				ContextStepKey:        i,
+				ContextButtonValueKey: falseValue,
+				ContextStepKey:        stepValue,
 			},
 		},
 	}

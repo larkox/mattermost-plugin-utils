@@ -1,6 +1,7 @@
 package flow
 
 import (
+	"encoding/json"
 	"fmt"
 
 	"github.com/larkox/mattermost-plugin-utils/bot/logger"
@@ -39,6 +40,7 @@ func FreeTextMessageHandler(c *plugin.Context, post *model.Post, api plugin.API,
 }
 
 func freeTextSlackAttachment(flowHandler string, value string, step steps.Step, i int) *model.SlackAttachment {
+	stepValue, _ := json.Marshal(i)
 	actionConfirm := model.PostAction{
 		Name: "Confirm",
 		Integration: &model.PostActionIntegration{
@@ -46,7 +48,7 @@ func freeTextSlackAttachment(flowHandler string, value string, step steps.Step, 
 			Context: map[string]interface{}{
 				steps.ContextPropertyKey:    step.GetPropertyName(),
 				steps.ContextButtonValueKey: value,
-				steps.ContextStepKey:        i,
+				steps.ContextStepKey:        stepValue,
 			},
 		},
 	}
@@ -58,7 +60,7 @@ func freeTextSlackAttachment(flowHandler string, value string, step steps.Step, 
 			Context: map[string]interface{}{
 				steps.ContextPropertyKey:    step.GetPropertyName(),
 				steps.ContextButtonValueKey: "",
-				steps.ContextStepKey:        i,
+				steps.ContextStepKey:        stepValue,
 			},
 		},
 	}

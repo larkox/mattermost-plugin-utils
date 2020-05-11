@@ -4,6 +4,7 @@
 package flow
 
 import (
+	"encoding/json"
 	"fmt"
 	"net/http"
 
@@ -41,10 +42,16 @@ func (fh *fh) handleFlow(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	stepNumber, ok := request.Context[steps.ContextStepKey].(int)
+	rawStep, ok := request.Context[steps.ContextStepKey].([]byte)
 	if !ok {
 		common.SlackAttachmentError(w, "Error: missing step number")
 		return
+	}
+
+	var stepNumber int
+	err := json.Unmarshal(rawStep, &stepNumber)
+	if err != nil {
+		common.SlackAttachmentError(w, "Error: cannot parse step number")
 	}
 
 	step := fh.flow.Step(stepNumber)
@@ -65,7 +72,7 @@ func (fh *fh) handleFlow(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err := fh.store.SetProperty(mattermostUserID, property, value)
+	err = fh.store.SetProperty(mattermostUserID, property, value)
 	if err != nil {
 		common.SlackAttachmentError(w, "There has been a problem setting the property, err="+err.Error())
 		return
