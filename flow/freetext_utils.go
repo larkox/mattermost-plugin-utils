@@ -48,7 +48,7 @@ func freeTextSlackAttachment(flowHandler string, value string, step steps.Step, 
 			Context: map[string]interface{}{
 				steps.ContextPropertyKey:    step.GetPropertyName(),
 				steps.ContextButtonValueKey: value,
-				steps.ContextStepKey:        stepValue,
+				steps.ContextStepKey:        string(stepValue),
 			},
 		},
 	}
@@ -60,7 +60,7 @@ func freeTextSlackAttachment(flowHandler string, value string, step steps.Step, 
 			Context: map[string]interface{}{
 				steps.ContextPropertyKey:    step.GetPropertyName(),
 				steps.ContextButtonValueKey: "",
-				steps.ContextStepKey:        stepValue,
+				steps.ContextStepKey:        string(stepValue),
 			},
 		},
 	}

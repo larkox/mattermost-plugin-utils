@@ -42,14 +42,14 @@ func (fh *fh) handleFlow(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	rawStep, ok := request.Context[steps.ContextStepKey].([]byte)
+	rawStep, ok := request.Context[steps.ContextStepKey].(string)
 	if !ok {
 		common.SlackAttachmentError(w, "Error: missing step number")
 		return
 	}
 
 	var stepNumber int
-	err := json.Unmarshal(rawStep, &stepNumber)
+	err := json.Unmarshal([]byte(rawStep), &stepNumber)
 	if err != nil {
 		common.SlackAttachmentError(w, "Error: cannot parse step number")
 	}
@@ -68,7 +68,7 @@ func (fh *fh) handleFlow(w http.ResponseWriter, r *http.Request) {
 
 	value, ok := request.Context[steps.ContextButtonValueKey]
 	if !ok {
-		common.SlackAttachmentError(w, "Error: missing setting id")
+		common.SlackAttachmentError(w, "Error: missing value")
 		return
 	}
 

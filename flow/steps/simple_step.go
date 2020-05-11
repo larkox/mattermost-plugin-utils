@@ -43,8 +43,8 @@ func (s *simpleStep) PostSlackAttachment(flowHandler string, i int) *model.Slack
 			URL: flowHandler,
 			Context: map[string]interface{}{
 				ContextPropertyKey:    s.PropertyName,
-				ContextButtonValueKey: trueValue,
-				ContextStepKey:        stepValue,
+				ContextButtonValueKey: string(trueValue),
+				ContextStepKey:        string(stepValue),
 			},
 		},
 	}
@@ -55,8 +55,8 @@ func (s *simpleStep) PostSlackAttachment(flowHandler string, i int) *model.Slack
 			URL: flowHandler,
 			Context: map[string]interface{}{
 				ContextPropertyKey:    s.PropertyName,
-				ContextButtonValueKey: falseValue,
-				ContextStepKey:        stepValue,
+				ContextButtonValueKey: string(falseValue),
+				ContextStepKey:        string(stepValue),
 			},
 		},
 	}
