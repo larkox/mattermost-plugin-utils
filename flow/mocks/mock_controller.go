@@ -7,6 +7,7 @@ package mock_flow
 import (
 	gomock "github.com/golang/mock/gomock"
 	flow "github.com/larkox/mattermost-plugin-utils/flow"
+	steps "github.com/larkox/mattermost-plugin-utils/flow/steps"
 	reflect "reflect"
 )
 
@@ -47,8 +48,38 @@ func (mr *MockFlowControllerMockRecorder) Cancel(arg0 interface{}) *gomock.Call 
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Cancel", reflect.TypeOf((*MockFlowController)(nil).Cancel), arg0)
 }
 
+// GetCurrentStep mocks base method
+func (m *MockFlowController) GetCurrentStep(arg0 string) (steps.Step, int, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetCurrentStep", arg0)
+	ret0, _ := ret[0].(steps.Step)
+	ret1, _ := ret[1].(int)
+	ret2, _ := ret[2].(error)
+	return ret0, ret1, ret2
+}
+
+// GetCurrentStep indicates an expected call of GetCurrentStep
+func (mr *MockFlowControllerMockRecorder) GetCurrentStep(arg0 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetCurrentStep", reflect.TypeOf((*MockFlowController)(nil).GetCurrentStep), arg0)
+}
+
+// GetFlowURL mocks base method
+func (m *MockFlowController) GetFlowURL() string {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetFlowURL")
+	ret0, _ := ret[0].(string)
+	return ret0
+}
+
+// GetFlowURL indicates an expected call of GetFlowURL
+func (mr *MockFlowControllerMockRecorder) GetFlowURL() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetFlowURL", reflect.TypeOf((*MockFlowController)(nil).GetFlowURL))
+}
+
 // NextStep mocks base method
-func (m *MockFlowController) NextStep(arg0 string, arg1 int, arg2 bool) error {
+func (m *MockFlowController) NextStep(arg0 string, arg1 int, arg2 interface{}) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "NextStep", arg0, arg1, arg2)
 	ret0, _ := ret[0].(error)

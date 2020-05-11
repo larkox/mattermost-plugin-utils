@@ -76,7 +76,7 @@ func (mr *MockStepMockRecorder) PostSlackAttachment(arg0, arg1 interface{}) *gom
 }
 
 // ResponseSlackAttachment mocks base method
-func (m *MockStep) ResponseSlackAttachment(arg0 bool) *model.SlackAttachment {
+func (m *MockStep) ResponseSlackAttachment(arg0 interface{}) *model.SlackAttachment {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ResponseSlackAttachment", arg0)
 	ret0, _ := ret[0].(*model.SlackAttachment)
@@ -90,7 +90,7 @@ func (mr *MockStepMockRecorder) ResponseSlackAttachment(arg0 interface{}) *gomoc
 }
 
 // ShouldSkip mocks base method
-func (m *MockStep) ShouldSkip(arg0 bool) int {
+func (m *MockStep) ShouldSkip(arg0 interface{}) int {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ShouldSkip", arg0)
 	ret0, _ := ret[0].(int)
@@ -101,4 +101,18 @@ func (m *MockStep) ShouldSkip(arg0 bool) int {
 func (mr *MockStepMockRecorder) ShouldSkip(arg0 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ShouldSkip", reflect.TypeOf((*MockStep)(nil).ShouldSkip), arg0)
+}
+
+// WaitForUserInput mocks base method
+func (m *MockStep) WaitForUserInput() bool {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "WaitForUserInput")
+	ret0, _ := ret[0].(bool)
+	return ret0
+}
+
+// WaitForUserInput indicates an expected call of WaitForUserInput
+func (mr *MockStepMockRecorder) WaitForUserInput() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "WaitForUserInput", reflect.TypeOf((*MockStep)(nil).WaitForUserInput))
 }

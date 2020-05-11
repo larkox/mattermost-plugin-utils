@@ -136,3 +136,15 @@ func (mr *MockPosterMockRecorder) UpdatePost(arg0 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdatePost", reflect.TypeOf((*MockPoster)(nil).UpdatePost), arg0)
 }
+
+// UpdatePosterID mocks base method
+func (m *MockPoster) UpdatePosterID(arg0 string) {
+	m.ctrl.T.Helper()
+	m.ctrl.Call(m, "UpdatePosterID", arg0)
+}
+
+// UpdatePosterID indicates an expected call of UpdatePosterID
+func (mr *MockPosterMockRecorder) UpdatePosterID(arg0 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdatePosterID", reflect.TypeOf((*MockPoster)(nil).UpdatePosterID), arg0)
+}

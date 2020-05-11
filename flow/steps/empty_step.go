@@ -2,12 +2,19 @@ package steps
 
 import "github.com/mattermost/mattermost-server/v5/model"
 
-type EmptyStep struct {
+type emptyStep struct {
 	Title   string
 	Message string
 }
 
-func (s *EmptyStep) PostSlackAttachment(flowHandler string, i int) *model.SlackAttachment {
+func NewEmptyStep(title, message string) Step {
+	return &emptyStep{
+		Title:   title,
+		Message: message,
+	}
+}
+
+func (s *emptyStep) PostSlackAttachment(flowHandler string, i int) *model.SlackAttachment {
 	sa := model.SlackAttachment{
 		Title: s.Title,
 		Text:  s.Message,
@@ -16,18 +23,22 @@ func (s *EmptyStep) PostSlackAttachment(flowHandler string, i int) *model.SlackA
 	return &sa
 }
 
-func (s *EmptyStep) ResponseSlackAttachment(value bool) *model.SlackAttachment {
+func (s *emptyStep) ResponseSlackAttachment(value interface{}) *model.SlackAttachment {
 	return nil
 }
 
-func (s *EmptyStep) GetPropertyName() string {
+func (s *emptyStep) GetPropertyName() string {
 	return ""
 }
 
-func (s *EmptyStep) ShouldSkip(value bool) int {
+func (s *emptyStep) ShouldSkip(value interface{}) int {
 	return 0
 }
 
-func (s *EmptyStep) IsEmpty() bool {
+func (s *emptyStep) IsEmpty() bool {
 	return true
+}
+
+func (s *emptyStep) WaitForUserInput() bool {
+	return false
 }

@@ -74,7 +74,7 @@ func (mr *MockFlowMockRecorder) Step(arg0 interface{}) *gomock.Call {
 }
 
 // StepDone mocks base method
-func (m *MockFlow) StepDone(arg0 string, arg1 int, arg2 bool) {
+func (m *MockFlow) StepDone(arg0 string, arg1 int, arg2 interface{}) {
 	m.ctrl.T.Helper()
 	m.ctrl.Call(m, "StepDone", arg0, arg1, arg2)
 }

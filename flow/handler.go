@@ -6,10 +6,10 @@ package flow
 import (
 	"fmt"
 	"net/http"
-	"strconv"
 
 	"github.com/gorilla/mux"
 	"github.com/larkox/mattermost-plugin-utils/common"
+	"github.com/larkox/mattermost-plugin-utils/flow/steps"
 	"github.com/mattermost/mattermost-server/v5/model"
 )
 
@@ -35,9 +35,15 @@ func (fh *fh) handleFlow(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	stepNumber, err := strconv.Atoi(r.URL.Query().Get("step"))
-	if err != nil {
-		common.SlackAttachmentError(w, fmt.Sprintf("Error: Step provided is not an int, err=%s", err.Error()))
+	request := model.PostActionIntegrationRequestFromJson(r.Body)
+	if request == nil {
+		common.SlackAttachmentError(w, "Error: invalid request")
+		return
+	}
+
+	stepNumber, ok := request.Context[steps.ContextStepKey].(int)
+	if !ok {
+		common.SlackAttachmentError(w, "Error: missing step number")
 		return
 	}
 
@@ -47,15 +53,19 @@ func (fh *fh) handleFlow(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	property := step.GetPropertyName()
-	valueString := r.URL.Query().Get(property)
-	if valueString == "" {
-		common.SlackAttachmentError(w, "Correct property not set")
+	property, ok := request.Context[steps.ContextPropertyKey].(string)
+	if !ok {
+		common.SlackAttachmentError(w, "Error: missing property name")
 		return
 	}
 
-	value := valueString == "true"
-	err = fh.store.SetProperty(mattermostUserID, property, value)
+	value, ok := request.Context[steps.ContextButtonValueKey]
+	if !ok {
+		common.SlackAttachmentError(w, "Error: missing setting id")
+		return
+	}
+
+	err := fh.store.SetProperty(mattermostUserID, property, value)
 	if err != nil {
 		common.SlackAttachmentError(w, "There has been a problem setting the property, err="+err.Error())
 		return

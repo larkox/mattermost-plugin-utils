@@ -1,6 +1,8 @@
 package flow
 
 import (
+	"fmt"
+
 	"github.com/larkox/mattermost-plugin-utils/bot/logger"
 	"github.com/larkox/mattermost-plugin-utils/bot/poster"
 	"github.com/larkox/mattermost-plugin-utils/flow/steps"
@@ -9,7 +11,9 @@ import (
 type FlowController interface {
 	RegisterFlow(Flow, FlowStore)
 	Start(userID string) error
-	NextStep(userID string, from int, value bool) error
+	NextStep(userID string, from int, value interface{}) error
+	GetCurrentStep(userID string) (steps.Step, int, error)
+	GetFlowURL() string
 	Cancel(userID string) error
 }
 
@@ -42,7 +46,7 @@ func (fc *flowController) Start(userID string) error {
 	return fc.processStep(userID, fc.flow.Step(0), 0)
 }
 
-func (fc *flowController) NextStep(userID string, from int, value bool) error {
+func (fc *flowController) NextStep(userID string, from int, value interface{}) error {
 	step, err := fc.getFlowStep(userID)
 	if err != nil {
 		return err
@@ -66,6 +70,24 @@ func (fc *flowController) NextStep(userID string, from int, value bool) error {
 	}
 
 	return fc.processStep(userID, fc.flow.Step(step), step)
+}
+
+func (fc *flowController) GetCurrentStep(userID string) (steps.Step, int, error) {
+	index, err := fc.getFlowStep(userID)
+	if err != nil {
+		return nil, 0, err
+	}
+
+	step := fc.flow.Step(index)
+	if step == nil {
+		return nil, 0, fmt.Errorf("step %d not found", index)
+	}
+
+	return step, index, nil
+}
+
+func (fc *flowController) GetFlowURL() string {
+	return fc.flow.URL()
 }
 
 func (fc *flowController) Cancel(userID string) error {

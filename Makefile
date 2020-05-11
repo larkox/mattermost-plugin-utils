@@ -1,3 +1,6 @@
+GO ?= $(shell command -v go 2> /dev/null)
+GO_TEST_FLAGS ?= -race
+
 ## Generates mock golang interfaces for testing
 mock:
 	go install github.com/golang/mock/mockgen
@@ -12,3 +15,6 @@ mock:
 	mockgen -destination bot/mocks/mock_admin.go -package mock_bot github.com/larkox/mattermost-plugin-utils/bot Admin
 	mockgen -destination bot/mocks/mock_logger.go -package mock_bot github.com/larkox/mattermost-plugin-utils/bot/logger Logger
 	mockgen -destination bot/mocks/mock_poster.go -package mock_bot github.com/larkox/mattermost-plugin-utils/bot/poster Poster
+
+test:
+	$(GO) test -race -v ./...

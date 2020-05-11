@@ -1,12 +1,10 @@
 package steps
 
 import (
-	"strconv"
-
 	"github.com/mattermost/mattermost-server/v5/model"
 )
 
-type SimpleStep struct {
+type simpleStep struct {
 	Title                string
 	Message              string
 	PropertyName         string
@@ -18,18 +16,42 @@ type SimpleStep struct {
 	FalseSkip            int
 }
 
-func (s *SimpleStep) PostSlackAttachment(flowHandler string, i int) *model.SlackAttachment {
+func NewSimpleStep(title, message, propertyName, trueButtonMessage, falseButtonMessage, trueResponseMessage, falseResponseMessage string, trueSkip, falseSkip int) Step {
+	return &simpleStep{
+		Title:                title,
+		Message:              message,
+		PropertyName:         propertyName,
+		TrueButtonMessage:    trueButtonMessage,
+		FalseButtonMessage:   falseButtonMessage,
+		TrueResponseMessage:  trueResponseMessage,
+		FalseResponseMessage: falseResponseMessage,
+		TrueSkip:             trueSkip,
+		FalseSkip:            falseSkip,
+	}
+}
+
+func (s *simpleStep) PostSlackAttachment(flowHandler string, i int) *model.SlackAttachment {
 	actionTrue := model.PostAction{
 		Name: s.TrueButtonMessage,
 		Integration: &model.PostActionIntegration{
-			URL: flowHandler + "?" + s.PropertyName + "=true&step=" + strconv.Itoa(i),
+			URL: flowHandler,
+			Context: map[string]interface{}{
+				ContextPropertyKey:    s.PropertyName,
+				ContextButtonValueKey: "true",
+				ContextStepKey:        i,
+			},
 		},
 	}
 
 	actionFalse := model.PostAction{
 		Name: s.FalseButtonMessage,
 		Integration: &model.PostActionIntegration{
-			URL: flowHandler + "?" + s.PropertyName + "=false&step=" + strconv.Itoa(i),
+			URL: flowHandler,
+			Context: map[string]interface{}{
+				ContextPropertyKey:    s.PropertyName,
+				ContextButtonValueKey: "false",
+				ContextStepKey:        i,
+			},
 		},
 	}
 
@@ -42,9 +64,10 @@ func (s *SimpleStep) PostSlackAttachment(flowHandler string, i int) *model.Slack
 	return &sa
 }
 
-func (s *SimpleStep) ResponseSlackAttachment(value bool) *model.SlackAttachment {
+func (s *simpleStep) ResponseSlackAttachment(rawValue interface{}) *model.SlackAttachment {
+	value, ok := rawValue.(bool)
 	message := s.FalseResponseMessage
-	if value {
+	if ok && value {
 		message = s.TrueResponseMessage
 	}
 
@@ -57,18 +80,24 @@ func (s *SimpleStep) ResponseSlackAttachment(value bool) *model.SlackAttachment 
 	return &sa
 }
 
-func (s *SimpleStep) GetPropertyName() string {
+func (s *simpleStep) GetPropertyName() string {
 	return s.PropertyName
 }
 
-func (s *SimpleStep) ShouldSkip(value bool) int {
-	if value {
+func (s *simpleStep) ShouldSkip(rawValue interface{}) int {
+	value, ok := rawValue.(bool)
+
+	if ok && value {
 		return s.TrueSkip
 	}
 
 	return s.FalseSkip
 }
 
-func (s *SimpleStep) IsEmpty() bool {
+func (s *simpleStep) IsEmpty() bool {
+	return false
+}
+
+func (s *simpleStep) WaitForUserInput() bool {
 	return false
 }

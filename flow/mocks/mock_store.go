@@ -119,7 +119,7 @@ func (mr *MockFlowStoreMockRecorder) SetPostID(arg0, arg1, arg2 interface{}) *go
 }
 
 // SetProperty mocks base method
-func (m *MockFlowStore) SetProperty(arg0, arg1 string, arg2 bool) error {
+func (m *MockFlowStore) SetProperty(arg0, arg1 string, arg2 interface{}) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "SetProperty", arg0, arg1, arg2)
 	ret0, _ := ret[0].(error)

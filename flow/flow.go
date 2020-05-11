@@ -8,7 +8,7 @@ type Flow interface {
 	Step(i int) steps.Step
 	URL() string
 	Length() int
-	StepDone(userID string, step int, value bool)
+	StepDone(userID string, step int, value interface{})
 	FlowDone(userID string)
 }
 
@@ -47,7 +47,7 @@ func (f *flow) Length() int {
 	return len(f.steps)
 }
 
-func (f *flow) StepDone(userID string, step int, value bool) {
+func (f *flow) StepDone(userID string, step int, value interface{}) {
 	f.controller.NextStep(userID, step, value)
 }
 
