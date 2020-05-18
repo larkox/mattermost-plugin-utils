@@ -1,8 +1,6 @@
 package steps
 
 import (
-	"fmt"
-
 	"github.com/gorilla/mux"
 	"github.com/larkox/mattermost-plugin-utils/bot/poster"
 	"github.com/larkox/mattermost-plugin-utils/freetext_fetcher"
@@ -13,17 +11,23 @@ type freetextStep struct {
 	Title           string
 	Message         string
 	PropertyName    string
-	ResponseFormat  string
 	FreetextFetcher freetext_fetcher.FreetextFetcher
 }
 
-func NewFreeTextStep(title, message, propertyName, responseFormat string, baseURL string, store freetext_fetcher.FreetextStore, validate func(string) string, r *mux.Router, posterBot poster.Poster) Step {
+func NewFreeTextStep(title, message, propertyName, baseURL string, store freetext_fetcher.FreetextStore, validate func(string) string, r *mux.Router, posterBot poster.Poster) Step {
 	return &freetextStep{
-		Title:           title,
-		Message:         message,
-		PropertyName:    propertyName,
-		ResponseFormat:  responseFormat,
-		FreetextFetcher: freetext_fetcher.NewFreeTextFetcher(baseURL, store, validate, nil, nil, r, posterBot),
+		Title:        title,
+		Message:      message,
+		PropertyName: propertyName,
+		FreetextFetcher: freetext_fetcher.NewFreeTextFetcher(
+			baseURL,
+			store,
+			validate,
+			nil,
+			nil,
+			r,
+			posterBot,
+		),
 	}
 }
 
@@ -37,18 +41,8 @@ func (s *freetextStep) PostSlackAttachment(flowHandler string, i int) *model.Sla
 }
 
 func (s *freetextStep) ResponseSlackAttachment(value interface{}) *model.SlackAttachment {
-	message := fmt.Sprintf(s.ResponseFormat, value)
-	if value.(string) == "" {
-		message = "Text input cancelled."
-	}
-
-	sa := model.SlackAttachment{
-		Title:   s.Title,
-		Text:    message,
-		Actions: []*model.PostAction{},
-	}
-
-	return &sa
+	// Not used
+	return &model.SlackAttachment{}
 }
 
 func (s *freetextStep) GetPropertyName() string {

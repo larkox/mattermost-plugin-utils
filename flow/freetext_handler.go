@@ -14,13 +14,13 @@ func (fc *flowController) ftOnFetch(message string, payload string) {
 	var ftInfo freetextInfo
 	err := json.Unmarshal([]byte(payload), &ftInfo)
 	if err != nil {
-		// TODO Handle error better
+		fc.Logger.Errorf("cannot unmarshal free text info, err=%s", err)
 		return
 	}
 
 	err = fc.store.SetProperty(ftInfo.UserID, ftInfo.Property, message)
 	if err != nil {
-		// TODO Handle error better
+		fc.Logger.Errorf("cannot set free text property %s, err=%s", ftInfo.Property, err)
 		return
 	}
 
@@ -32,7 +32,7 @@ func (fc *flowController) ftOnCancel(payload string) {
 	var ftInfo freetextInfo
 	err := json.Unmarshal([]byte(payload), &ftInfo)
 	if err != nil {
-		// TODO Handle error better
+		fc.Logger.Errorf("cannot unmarshal free text info, err=%s", err)
 		return
 	}
 
