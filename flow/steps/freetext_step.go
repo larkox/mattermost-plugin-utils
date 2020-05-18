@@ -3,22 +3,27 @@ package steps
 import (
 	"fmt"
 
+	"github.com/gorilla/mux"
+	"github.com/larkox/mattermost-plugin-utils/bot/poster"
+	"github.com/larkox/mattermost-plugin-utils/freetext_fetcher"
 	"github.com/mattermost/mattermost-server/v5/model"
 )
 
 type freetextStep struct {
-	Title          string
-	Message        string
-	PropertyName   string
-	ResponseFormat string
+	Title           string
+	Message         string
+	PropertyName    string
+	ResponseFormat  string
+	FreetextFetcher freetext_fetcher.FreetextFetcher
 }
 
-func NewFreeTextStep(title, message, propertyName, responseFormat string) Step {
+func NewFreeTextStep(title, message, propertyName, responseFormat string, baseURL string, store freetext_fetcher.FreetextStore, validate func(string) string, r *mux.Router, posterBot poster.Poster) Step {
 	return &freetextStep{
-		Title:          title,
-		Message:        message,
-		PropertyName:   propertyName,
-		ResponseFormat: responseFormat,
+		Title:           title,
+		Message:         message,
+		PropertyName:    propertyName,
+		ResponseFormat:  responseFormat,
+		FreetextFetcher: freetext_fetcher.NewFreeTextFetcher(baseURL, store, validate, nil, nil, r, posterBot),
 	}
 }
 
@@ -62,6 +67,6 @@ func (s *freetextStep) IsEmpty() bool {
 	return false
 }
 
-func (s *freetextStep) WaitForUserInput() bool {
-	return true
+func (s *freetextStep) GetFreeTextFetcher() freetext_fetcher.FreetextFetcher {
+	return s.FreetextFetcher
 }

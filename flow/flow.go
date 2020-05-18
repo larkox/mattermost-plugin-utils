@@ -5,6 +5,7 @@ import (
 )
 
 type Flow interface {
+	Steps() []steps.Step
 	Step(i int) steps.Step
 	URL() string
 	Length() int
@@ -22,11 +23,15 @@ type flow struct {
 func NewFlow(stepList []steps.Step, url string, fc FlowController, onFlowDone func(userID string)) Flow {
 	f := &flow{
 		steps:      stepList,
-		url:        "/welcome",
+		url:        url,
 		controller: fc,
 		onFlowDone: onFlowDone,
 	}
 	return f
+}
+
+func (f *flow) Steps() []steps.Step {
+	return f.steps
 }
 
 func (f *flow) Step(i int) steps.Step {

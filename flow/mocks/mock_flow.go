@@ -85,6 +85,20 @@ func (mr *MockFlowMockRecorder) StepDone(arg0, arg1, arg2 interface{}) *gomock.C
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "StepDone", reflect.TypeOf((*MockFlow)(nil).StepDone), arg0, arg1, arg2)
 }
 
+// Steps mocks base method
+func (m *MockFlow) Steps() []steps.Step {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Steps")
+	ret0, _ := ret[0].([]steps.Step)
+	return ret0
+}
+
+// Steps indicates an expected call of Steps
+func (mr *MockFlowMockRecorder) Steps() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Steps", reflect.TypeOf((*MockFlow)(nil).Steps))
+}
+
 // URL mocks base method
 func (m *MockFlow) URL() string {
 	m.ctrl.T.Helper()

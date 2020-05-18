@@ -15,6 +15,10 @@ mock:
 	mockgen -destination bot/mocks/mock_admin.go -package mock_bot github.com/larkox/mattermost-plugin-utils/bot Admin
 	mockgen -destination bot/mocks/mock_logger.go -package mock_bot github.com/larkox/mattermost-plugin-utils/bot/logger Logger
 	mockgen -destination bot/mocks/mock_poster.go -package mock_bot github.com/larkox/mattermost-plugin-utils/bot/poster Poster
+	mockgen -destination freetext_fetcher/mocks/mock_fetcher.go -package mock_freetext_fetcher github.com/larkox/mattermost-plugin-utils/freetext_fetcher FreetextFetcher
+	mockgen -destination freetext_fetcher/mocks/mock_manager.go -package mock_freetext_fetcher github.com/larkox/mattermost-plugin-utils/freetext_fetcher Manager
+	mockgen -destination freetext_fetcher/mocks/mock_store.go -package mock_freetext_fetcher github.com/larkox/mattermost-plugin-utils/freetext_fetcher FreetextStore
+
 
 test:
 	$(GO) test -race -v ./...

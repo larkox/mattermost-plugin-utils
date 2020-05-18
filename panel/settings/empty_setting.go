@@ -3,6 +3,7 @@ package settings
 import (
 	"fmt"
 
+	"github.com/larkox/mattermost-plugin-utils/freetext_fetcher"
 	"github.com/mattermost/mattermost-server/v5/model"
 )
 
@@ -49,4 +50,8 @@ func (s *emptySetting) GetSlackAttachments(userID, settingHandler string, disabl
 	}
 
 	return &sa, nil
+}
+
+func (s *emptySetting) GetFreetextFetcher() freetext_fetcher.FreetextFetcher {
+	return nil
 }

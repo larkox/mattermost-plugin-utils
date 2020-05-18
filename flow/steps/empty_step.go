@@ -1,6 +1,9 @@
 package steps
 
-import "github.com/mattermost/mattermost-server/v5/model"
+import (
+	"github.com/larkox/mattermost-plugin-utils/freetext_fetcher"
+	"github.com/mattermost/mattermost-server/v5/model"
+)
 
 type emptyStep struct {
 	Title   string
@@ -39,6 +42,6 @@ func (s *emptyStep) IsEmpty() bool {
 	return true
 }
 
-func (s *emptyStep) WaitForUserInput() bool {
-	return false
+func (_ *emptyStep) GetFreeTextFetcher() freetext_fetcher.FreetextFetcher {
+	return nil
 }

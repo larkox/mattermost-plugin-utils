@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 
+	"github.com/larkox/mattermost-plugin-utils/freetext_fetcher"
 	"github.com/mattermost/mattermost-server/v5/model"
 )
 
@@ -103,4 +104,8 @@ func (s *optionSetting) GetSlackAttachments(userID, settingHandler string, disab
 
 func (s *optionSetting) IsDisabled(foreignValue interface{}) bool {
 	return foreignValue == "false"
+}
+
+func (s *optionSetting) GetFreetextFetcher() freetext_fetcher.FreetextFetcher {
+	return nil
 }

@@ -3,6 +3,7 @@ package steps
 import (
 	"encoding/json"
 
+	"github.com/larkox/mattermost-plugin-utils/freetext_fetcher"
 	"github.com/mattermost/mattermost-server/v5/model"
 )
 
@@ -105,10 +106,6 @@ func (s *simpleStep) IsEmpty() bool {
 	return false
 }
 
-func (s *simpleStep) WaitForUserInput() bool {
-	return false
-}
-
 func (_ *simpleStep) parseValue(rawValue interface{}) (value bool) {
 	err := json.Unmarshal([]byte(rawValue.(string)), &value)
 	if err != nil {
@@ -116,4 +113,8 @@ func (_ *simpleStep) parseValue(rawValue interface{}) (value bool) {
 	}
 
 	return value
+}
+
+func (_ *simpleStep) GetFreeTextFetcher() freetext_fetcher.FreetextFetcher {
+	return nil
 }

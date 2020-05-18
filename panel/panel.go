@@ -37,7 +37,7 @@ func NewSettingsPanel(settingList []settings.Setting, poster poster.Poster, logg
 		settingKeys = append(settingKeys, s.GetID())
 	}
 
-	return &panel{
+	panel := &panel{
 		settings:       settingsMap,
 		settingKeys:    settingKeys,
 		poster:         poster,
@@ -46,6 +46,17 @@ func NewSettingsPanel(settingList []settings.Setting, poster poster.Poster, logg
 		settingHandler: settingHandler,
 		pluginURL:      pluginURL,
 	}
+
+	for _, s := range settingsMap {
+		ftf := s.GetFreetextFetcher()
+		if ftf == nil {
+			continue
+		}
+
+		ftf.UpdateHooks(nil, panel.ftOnFetch, panel.ftOnCancel)
+	}
+
+	return panel
 }
 
 func (p *panel) Set(userID, settingID string, value interface{}) error {

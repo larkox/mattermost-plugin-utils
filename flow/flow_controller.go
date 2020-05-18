@@ -1,6 +1,7 @@
 package flow
 
 import (
+	"encoding/json"
 	"fmt"
 
 	"github.com/larkox/mattermost-plugin-utils/bot/logger"
@@ -36,6 +37,16 @@ func NewFlowController(p poster.Poster, l logger.Logger, pluginURL string) FlowC
 func (fc *flowController) RegisterFlow(flow Flow, store FlowStore) {
 	fc.flow = flow
 	fc.store = store
+
+	for _, step := range flow.Steps() {
+		ftf := step.GetFreeTextFetcher()
+		if ftf != nil {
+			ftf.UpdateHooks(nil,
+				fc.ftOnFetch,
+				fc.ftOnCancel,
+			)
+		}
+	}
 }
 
 func (fc *flowController) Start(userID string) error {
@@ -142,6 +153,7 @@ func (fc *flowController) processStep(userID string, step steps.Step, i int) err
 	if fc.store == nil {
 		fc.Errorf("Store nil")
 	}
+
 	postID, err := fc.DMWithAttachments(userID, step.PostSlackAttachment(fc.GetHandlerURL(), i))
 	if err != nil {
 		return err
@@ -156,5 +168,19 @@ func (fc *flowController) processStep(userID string, step steps.Step, i int) err
 		return err
 	}
 
+	ftf := step.GetFreeTextFetcher()
+	if ftf == nil {
+		return nil
+	}
+
+	payload, err := json.Marshal(freetextInfo{
+		Step:     i,
+		UserID:   userID,
+		Property: step.GetPropertyName(),
+	})
+	if err != nil {
+		return err
+	}
+	ftf.StartFetching(userID, string(payload))
 	return nil
 }

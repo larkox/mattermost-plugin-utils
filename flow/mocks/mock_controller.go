@@ -64,18 +64,18 @@ func (mr *MockFlowControllerMockRecorder) GetCurrentStep(arg0 interface{}) *gomo
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetCurrentStep", reflect.TypeOf((*MockFlowController)(nil).GetCurrentStep), arg0)
 }
 
-// GetFlowURL mocks base method
-func (m *MockFlowController) GetFlowURL() string {
+// GetHandlerURL mocks base method
+func (m *MockFlowController) GetHandlerURL() string {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetFlowURL")
+	ret := m.ctrl.Call(m, "GetHandlerURL")
 	ret0, _ := ret[0].(string)
 	return ret0
 }
 
-// GetFlowURL indicates an expected call of GetFlowURL
-func (mr *MockFlowControllerMockRecorder) GetFlowURL() *gomock.Call {
+// GetHandlerURL indicates an expected call of GetHandlerURL
+func (mr *MockFlowControllerMockRecorder) GetHandlerURL() *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetFlowURL", reflect.TypeOf((*MockFlowController)(nil).GetFlowURL))
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetHandlerURL", reflect.TypeOf((*MockFlowController)(nil).GetHandlerURL))
 }
 
 // NextStep mocks base method

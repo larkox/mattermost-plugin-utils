@@ -1,6 +1,9 @@
 package steps
 
-import "github.com/mattermost/mattermost-server/v5/model"
+import (
+	"github.com/larkox/mattermost-plugin-utils/freetext_fetcher"
+	"github.com/mattermost/mattermost-server/v5/model"
+)
 
 const (
 	ContextPropertyKey    = "property"
@@ -15,5 +18,5 @@ type Step interface {
 	GetPropertyName() string
 	ShouldSkip(value interface{}) int
 	IsEmpty() bool
-	WaitForUserInput() bool
+	GetFreeTextFetcher() freetext_fetcher.FreetextFetcher
 }

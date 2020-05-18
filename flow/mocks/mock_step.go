@@ -6,6 +6,7 @@ package mock_flow
 
 import (
 	gomock "github.com/golang/mock/gomock"
+	freetext_fetcher "github.com/larkox/mattermost-plugin-utils/freetext_fetcher"
 	model "github.com/mattermost/mattermost-server/v5/model"
 	reflect "reflect"
 )
@@ -31,6 +32,20 @@ func NewMockStep(ctrl *gomock.Controller) *MockStep {
 // EXPECT returns an object that allows the caller to indicate expected use
 func (m *MockStep) EXPECT() *MockStepMockRecorder {
 	return m.recorder
+}
+
+// GetFreeTextFetcher mocks base method
+func (m *MockStep) GetFreeTextFetcher() freetext_fetcher.FreetextFetcher {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetFreeTextFetcher")
+	ret0, _ := ret[0].(freetext_fetcher.FreetextFetcher)
+	return ret0
+}
+
+// GetFreeTextFetcher indicates an expected call of GetFreeTextFetcher
+func (mr *MockStepMockRecorder) GetFreeTextFetcher() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetFreeTextFetcher", reflect.TypeOf((*MockStep)(nil).GetFreeTextFetcher))
 }
 
 // GetPropertyName mocks base method
@@ -101,18 +116,4 @@ func (m *MockStep) ShouldSkip(arg0 interface{}) int {
 func (mr *MockStepMockRecorder) ShouldSkip(arg0 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ShouldSkip", reflect.TypeOf((*MockStep)(nil).ShouldSkip), arg0)
-}
-
-// WaitForUserInput mocks base method
-func (m *MockStep) WaitForUserInput() bool {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "WaitForUserInput")
-	ret0, _ := ret[0].(bool)
-	return ret0
-}
-
-// WaitForUserInput indicates an expected call of WaitForUserInput
-func (mr *MockStepMockRecorder) WaitForUserInput() *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "WaitForUserInput", reflect.TypeOf((*MockStep)(nil).WaitForUserInput))
 }
