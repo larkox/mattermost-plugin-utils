@@ -37,7 +37,7 @@ func NewFreetextSetting(id, title, description, modifyMessage, dependsOn string,
 		store:         store,
 		pluginURL:     pluginURL,
 	}
-	setting.ftf = freetext_fetcher.NewFreeTextFetcher(baseURL, ftfStore, validate, nil, nil, r, posterBot)
+	setting.ftf = freetext_fetcher.NewFreetextFetcher(baseURL, ftfStore, validate, nil, nil, r, posterBot)
 	return setting
 }
 

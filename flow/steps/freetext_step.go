@@ -14,12 +14,12 @@ type freetextStep struct {
 	FreetextFetcher freetext_fetcher.FreetextFetcher
 }
 
-func NewFreeTextStep(title, message, propertyName, baseURL string, store freetext_fetcher.FreetextStore, validate func(string) string, r *mux.Router, posterBot poster.Poster) Step {
+func NewFreetextStep(title, message, propertyName, baseURL string, store freetext_fetcher.FreetextStore, validate func(string) string, r *mux.Router, posterBot poster.Poster) Step {
 	return &freetextStep{
 		Title:        title,
 		Message:      message,
 		PropertyName: propertyName,
-		FreetextFetcher: freetext_fetcher.NewFreeTextFetcher(
+		FreetextFetcher: freetext_fetcher.NewFreetextFetcher(
 			baseURL,
 			store,
 			validate,
@@ -61,6 +61,6 @@ func (s *freetextStep) IsEmpty() bool {
 	return false
 }
 
-func (s *freetextStep) GetFreeTextFetcher() freetext_fetcher.FreetextFetcher {
+func (s *freetextStep) GetFreetextFetcher() freetext_fetcher.FreetextFetcher {
 	return s.FreetextFetcher
 }

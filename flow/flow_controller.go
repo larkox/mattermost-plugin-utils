@@ -39,7 +39,7 @@ func (fc *flowController) RegisterFlow(flow Flow, store FlowStore) {
 	fc.store = store
 
 	for _, step := range flow.Steps() {
-		ftf := step.GetFreeTextFetcher()
+		ftf := step.GetFreetextFetcher()
 		if ftf != nil {
 			ftf.UpdateHooks(nil,
 				fc.ftOnFetch,
@@ -168,7 +168,7 @@ func (fc *flowController) processStep(userID string, step steps.Step, i int) err
 		return err
 	}
 
-	ftf := step.GetFreeTextFetcher()
+	ftf := step.GetFreetextFetcher()
 	if ftf == nil {
 		return nil
 	}

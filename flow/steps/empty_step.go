@@ -42,6 +42,6 @@ func (s *emptyStep) IsEmpty() bool {
 	return true
 }
 
-func (_ *emptyStep) GetFreeTextFetcher() freetext_fetcher.FreetextFetcher {
+func (_ *emptyStep) GetFreetextFetcher() freetext_fetcher.FreetextFetcher {
 	return nil
 }

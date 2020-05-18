@@ -27,7 +27,7 @@ type freetextFetcher struct {
 	onCancel  func(string)
 }
 
-func NewFreeTextFetcher(baseURL string, store FreetextStore, validate func(string) string, onFetch func(string, string), onCancel func(string), r *mux.Router, posterBot poster.Poster) FreetextFetcher {
+func NewFreetextFetcher(baseURL string, store FreetextStore, validate func(string) string, onFetch func(string, string), onCancel func(string), r *mux.Router, posterBot poster.Poster) FreetextFetcher {
 	ftf := &freetextFetcher{
 		id:        model.NewId(),
 		baseUrl:   baseURL,

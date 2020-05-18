@@ -18,5 +18,5 @@ type Step interface {
 	GetPropertyName() string
 	ShouldSkip(value interface{}) int
 	IsEmpty() bool
-	GetFreeTextFetcher() freetext_fetcher.FreetextFetcher
+	GetFreetextFetcher() freetext_fetcher.FreetextFetcher
 }

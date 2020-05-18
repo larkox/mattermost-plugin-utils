@@ -115,6 +115,6 @@ func (_ *simpleStep) parseValue(rawValue interface{}) (value bool) {
 	return value
 }
 
-func (_ *simpleStep) GetFreeTextFetcher() freetext_fetcher.FreetextFetcher {
+func (_ *simpleStep) GetFreetextFetcher() freetext_fetcher.FreetextFetcher {
 	return nil
 }

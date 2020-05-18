@@ -34,18 +34,18 @@ func (m *MockStep) EXPECT() *MockStepMockRecorder {
 	return m.recorder
 }
 
-// GetFreeTextFetcher mocks base method
-func (m *MockStep) GetFreeTextFetcher() freetext_fetcher.FreetextFetcher {
+// GetFreetextFetcher mocks base method
+func (m *MockStep) GetFreetextFetcher() freetext_fetcher.FreetextFetcher {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetFreeTextFetcher")
+	ret := m.ctrl.Call(m, "GetFreetextFetcher")
 	ret0, _ := ret[0].(freetext_fetcher.FreetextFetcher)
 	return ret0
 }
 
-// GetFreeTextFetcher indicates an expected call of GetFreeTextFetcher
-func (mr *MockStepMockRecorder) GetFreeTextFetcher() *gomock.Call {
+// GetFreetextFetcher indicates an expected call of GetFreetextFetcher
+func (mr *MockStepMockRecorder) GetFreetextFetcher() *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetFreeTextFetcher", reflect.TypeOf((*MockStep)(nil).GetFreeTextFetcher))
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetFreetextFetcher", reflect.TypeOf((*MockStep)(nil).GetFreetextFetcher))
 }
 
 // GetPropertyName mocks base method
